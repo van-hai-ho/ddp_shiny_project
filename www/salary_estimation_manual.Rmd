@@ -1,0 +1,142 @@
+---
+title: "Getting Started with Salary Estimation Application (SEA)"
+author: "Van Hai Ho"
+date: "August 22, 2014"
+output:
+  html_document:
+    css: markdown_vhh.css
+    keep_md: yes
+    number_sections: yes
+    toc: yes
+---
+
+# Introduction
+
+Everyone wants to know what we earn is in reasonable range in the industry, especially for job seekers, knowing the market and know your worths can give you great power to negotiate for jobs offered to you. We do not want to be paid less than what you are entitled to. Salary Estimation Application (SEA) provides you a facility to quickly find out your worths in the market and enable you to manipulate and explore different options. 
+
+This document provides step-by-step instruction on how to use Salary Estimation Application and gives explanation for result.
+
+# User Guides
+
+## Access SEA
+
+SEA is accessible from the following link: <http://vanhaiho.shinyapps.io/ddp_shiny_project/>. This link works best on Firefox and Chrome browsers. 
+
+## SEA Overview 
+
+SEA uses <code>Wage</code> data set from <code>ISLR</code> package. There are many factors that might influence your remuneration package. Seven features selected in <code>Wage</code> data set are the common ones that would affect the level of your salary.
+
+- **Year of Birth**: Your age can be one of the factors to indicate your experience for the job, thus it can help to provide a projection for salary.
+- **Education Level**: Majority of job advertisements are asking for some form of qualifications. Depends on your qualifications, you will be offered salary level accordingly.
+- **Job Area**: At the moment, SEA only provides 2 job areas: *Industrial* and *Information*. More job categories can be added at a later time.
+- **Ethnic Background**: We are trying to eliminiate discrimination over race. However, in reality, this is still one of the factors that might influence our salary level.
+- **Marital Status**: Some jobs require some activities that might not well suited for a married person with small children, for example. Thus, it will limit the options in renumeration package.
+- **Health**: This is an important factor in getting job and getting well paid job.
+
+By analysing these features, SEA builds up the model for estimating salary level for a candidate.
+
+When SEA first loads into a browser, it will load and display default input criteria for prediction, as shown in the screenshot below.
+
+![Salary Estimation Application (SEA) UI](images/SEA_screenshot.png) 
+
+When you select an appropriate feature for your case, SEA will update the estimated salary accordingly and project it onto the distribution of the population data used to build the model. The next section will provide detailed explanation of the predicted result.
+
+## Exploration with SEA & Result Intepretation
+
+When you select the features for your case, for instance, change the <code>Year of Birth</code> to <code>1975</code>, and <code>Education Level</code> to <code>College Grad</code>, you will notice that as soon as you finish changing a value, the <code>Estimated salary</code> will be updated on the screen, and the <font color="red">red</font> line and <font color="blue">blue</font> line are moving according to the newly estimated salary and the selected <code>Year of Birth</code>.
+
+```{r setenv, echo=FALSE, message=FALSE, results='hide', cache=TRUE}
+library(stats)
+library(ISLR)
+library(ggplot2)
+data(Wage)
+
+# Get current year
+currentYear <- as.numeric(format(Sys.Date(), "%Y"))
+years <- c(1900:currentYear)
+educationLevels <- as.character(sort(unique(Wage$education)))
+jobClass <- as.character(sort(unique(Wage$jobclass)))
+raceGroups <- as.character(sort(unique(Wage$race)))
+maritalStatus <- as.character(sort(unique(Wage$maritl)))
+Wage$health <- factor(Wage$health, labels = c("1. Yes", "2. No"))
+healthStatus <- as.character(sort(unique(Wage$health)))
+healthInsStatus <- as.character(sort(unique(Wage$health_ins)))
+
+# testCase 
+testCase <- list(year = currentYear,
+                 age = currentYear - years[91],
+                 education = educationLevels[1],
+                 jobclass = jobClass[1],
+                 race = raceGroups[1],
+                 maritl = maritalStatus[1],
+                 health = healthStatus[1],
+                 health_ins = healthInsStatus[1])
+
+trainModel <- function(trainMethod = "glm") {
+    #modelFile <- "wageGlm.RData"
+    modelFile <- "wageLm.RData"
+    if (file.exists(modelFile)) {
+        # load the model previously built
+        load(modelFile)
+    } else {
+        # there is no model, build it now
+        # Exclude sex and region as these variables only 1 single value
+        # Exclude logwage as this is a calculated log wage
+        Wage <- subset(Wage, select = -c(sex, region, logwage))
+        
+        # Fit Linear Regression Model onto the data set
+        wageModel <- lm(wage ~ year + age + maritl + race + education + jobclass + health + health_ins, 
+                     data = Wage)
+        
+        # Save this model
+        save(wageModel, file = modelFile)
+    }
+    wageModel
+}
+
+wageModel <- trainModel()
+
+predictedWage <- predict(wageModel, testCase)
+
+```
+
+On the first graph, the estimated salary represented by the vertical <font color="red">red</font> line projected against the salary distribution recorded in the data set.
+
+```{r predictedWagePlot, echo=FALSE, message=FALSE, cache=TRUE}
+# Plot histogram on wages
+# Add line for predicted wage
+g <- ggplot(Wage, aes(x = Wage$wage)) + 
+    geom_histogram(binwidth = 5, colour = "darkgreen", aes(fill = ..count..)) +
+    scale_fill_gradient("Polulation Count", low = "white", high = "lightskyblue1") +
+    xlab("Mid-Atlantic Salary Distribution") +
+    ylab("Poplulation Count") +
+    ggtitle("Predicted salary compared to the population salaries\n") +
+    theme(plot.title = element_text(lineheight = 1, face = "bold"))
+g <- g + geom_vline(xintercept = predictedWage, colour = "red", lwd = 1)
+g
+```
+
+On the second graph, the estimated salary represented by the horizontal <font color="red">red</font> line projected against the distribution. The vertical <font color="blue">blue</font> line represented the input age used for the estimation.
+
+```{r wageAgeEduPlot, echo=FALSE, message=FALSE, cache=TRUE}
+# plot group
+g2 <- qplot(age, wage, colour = education, data = Wage)
+g2 <- g2 + 
+    ggtitle("Predicted salary compared with the population age and education\n") +
+    theme(plot.background = element_rect(fill = "transparent"), 
+          legend.position = c(1, 1),
+          legend.justification = c(1, 1),
+          axis.text.x = element_text(angle = 90, vjust=0.5, size = 10),
+          plot.title = element_text(lineheight = 1, face = "bold")) 
+g2 <- g2 + geom_vline(xintercept = testCase$age, colour = "darkblue", lwd = 1)
+g2 <- g2 + geom_hline(yintercept = predictedWage, colour = "red", lwd = 1)
+g2
+
+```
+
+For more information about this work, and for any feedback or suggestions, please contact <van.hai.ho@gmail.com>.
+
+# References
+
+This works has been developed with R, RStudio, Shiny, and the application is hosted on [ShinyApps.io](http://www.shinyapps.io).
+
