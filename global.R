@@ -14,3 +14,5 @@ Wage$health <- factor(Wage$health, labels = c("1. Yes", "2. No"))
 healthStatus <- as.character(sort(unique(Wage$health)))
 healthInsStatus <- as.character(sort(unique(Wage$health_ins)))
 
+summary(Wage)
+dim(Wage)

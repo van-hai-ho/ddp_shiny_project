@@ -55,7 +55,7 @@
 
 <p>=&gt; SEA provides you a facility to quickly find out your worths in the market, and
 <br>
-=&gt; enables you to manipulate and explore different options.</p>
+=&gt; enables you to easily manipulate and explore different options.</p>
 
   </article>
   <!-- Presenter Notes -->
@@ -63,18 +63,28 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>What does SEA do?</h2>
+    <h2>What does SEA do? - On Server side</h2>
   </hgroup>
   <article data-timings="">
     <ul>
-<li>SEA uses <code>Wage</code> data set from <code>ISLR</code> package.</li>
-<li>SEA uses Linear Regression model to analyse the common features collected in <code>Wage</code> data set in order to estimate salary level:
+<li>SEA uses <code>Wage</code> data set from <code>ISLR</code> package for training.</li>
+<li>The data set contains 3000 observations with 12 variables.</li>
+<li>Excluded variables that are not helpful for the model:
 
 <ul>
-<li><i>Year of Birth</i>, <i>Education Level</i>, <i>Job Area</i>, <i>Ethnic Background</i>, <i>Marital Status</i>, and <i>Health</i>.</li>
+<li><code>sex</code>, <code>region</code>: contains of single value, resulting in constance variance</li>
+<li><code>logwage</code>: calculated value for the recorded wages in the data set.</li>
 </ul></li>
-<li><a href="http://shiny.rstudio.com/">Shiny</a> is used to build SEA to enable prompty reactivity.</li>
-<li>SEA is hosted on <a href="http://www.shinyapps.io">ShinyApps.io</a>.</li>
+<li><p>SEA uses Linear Regression model to analyse the common variables collected in <code>Wage</code> data set in order to estimate salary level:</p>
+
+<ul>
+<li><i>Year of Birth</i>, </li>
+<li><i>Education Level</i>, </li>
+<li><i>Job Area</i>, </li>
+<li><i>Ethnic Background</i>, </li>
+<li><i>Marital Status</i>, and </li>
+<li><i>Health</i>.</li>
+</ul></li>
 </ul>
 
   </article>
@@ -82,6 +92,25 @@
 </slide>
 
 <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>What does SEA do? (cont.)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>User Interfaces: </p>
+
+<ul>
+<li><a href="http://shiny.rstudio.com/">Shiny</a> is used to build SEA to enable instantly reactivity with user interactions on the application.</li>
+</ul></li>
+<li><p>SEA is hosted on <a href="http://www.shinyapps.io">ShinyApps.io</a>.</p></li>
+<li><p>Documentations are also available with the links on the applications.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
   <hgroup>
     <h2>SEA in Action</h2>
   </hgroup>
@@ -109,14 +138,20 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='What does SEA do?'>
+        data-slide=2 title='What does SEA do? - On Server side'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='SEA in Action'>
+        data-slide=3 title='What does SEA do? (cont.)'>
          3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='SEA in Action'>
+         4
       </a>
     </li>
   </ul>

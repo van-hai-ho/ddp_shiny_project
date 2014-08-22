@@ -17,6 +17,6 @@ This repository includes the source code and documentation of the Salary Estimat
 The application can be accessed on ShinyApps.io: <http://vanhaiho.shinyapps.io/ddp_shiny_project/>.
 The summary slides and user guide can also be found on the links on the applications:
 
-* [User Guide](http://vanhaiho.shinyapps.io/ddp_shiny_project/#tab-9890-3).
-* [Summary Slides](http://vanhaiho.shinyapps.io/ddp_shiny_project/_w_5812c88de3e03b8bba46f8d3691536294e80298b4ed2c178/ddp_analysis_slides/index.html).
+* [User Guide](http://vanhaiho.shinyapps.io/ddp_shiny_project/#tab-5044-3).
+* [Summary Slides](http://vanhaiho.shinyapps.io/ddp_shiny_project/_w_f951615871836e9de7a760e638f42178f0c1b973ddeea099/ddp_analysis_slides/index.html).
 
