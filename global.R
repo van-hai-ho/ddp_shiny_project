@@ -16,3 +16,4 @@ healthInsStatus <- as.character(sort(unique(Wage$health_ins)))
 
 summary(Wage)
 dim(Wage)
+names(Wage)

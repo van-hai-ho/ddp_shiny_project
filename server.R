@@ -47,8 +47,12 @@ trainModel <- function(trainMethod = "glm") {
 }
 
 wageModel <- trainModel()
+#summary(wageModel)$coef
+#summary(wageModel)$resid
+#str(wageModel)
 
-#predictedWage <- predict(wageGlm, testCase)
+#predictedWage <- predict(wageModel, testCase)
+#predictedWage
 
 shinyServer(function(input, output, session) {
     

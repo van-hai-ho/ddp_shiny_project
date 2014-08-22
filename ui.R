@@ -50,7 +50,7 @@ calculationPanel <- function() {
 
 summaryPanel <- function() {
     wellPanel(
-        a(href="ddp_analysis_slides/index.html", 
+        a(href="http://vanho.github.io/ddp_analysis_slides", 
           "Salary Estimation Application Summary Slides")
     )
 }
