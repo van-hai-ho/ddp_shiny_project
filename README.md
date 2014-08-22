@@ -20,4 +20,3 @@ The summary slides and user guide can also be found on the links on the applicat
 * [User Guide](http://vanhaiho.shinyapps.io/ddp_shiny_project/#tab-9890-3).
 * [Summary Slides](http://vanhaiho.shinyapps.io/ddp_shiny_project/_w_5812c88de3e03b8bba46f8d3691536294e80298b4ed2c178/ddp_analysis_slides/index.html).
 
-The report can also be viewed in GitHub Pages: [http://vanho.github.io/datasciencecoursera/dev_data_products/pml_analysis.html](http://vanho.github.io/datasciencecoursera/dev_data_products/pml_analysis.html).
